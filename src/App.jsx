@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
+import Card from "./components/Card";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const RANKS     = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"];
@@ -51,44 +52,6 @@ function initials(name) {
 }
 function avatarColor(name) {
   return AVATAR_COLORS[(name || "").charCodeAt(0) % AVATAR_COLORS.length];
-}
-
-// ─── Card ─────────────────────────────────────────────────────────────────────
-function Card({ code, size = "md", highlight = false, faceDown = false }) {
-  const sizes = {
-    sm: { w:32, h:46, cf:9,  sf:16 },
-    md: { w:48, h:68, cf:12, sf:24 },
-    lg: { w:62, h:88, cf:14, sf:30 },
-  };
-  const s = sizes[size];
-
-  if (faceDown || !code || code === "X") {
-    return (
-      <div className="card card-back" style={{ width:s.w, height:s.h }}>
-        <div className="card-back-pattern" />
-      </div>
-    );
-  }
-  const rank = code.slice(0,-1);
-  const suit = code.slice(-1);
-  const display = rank === "T" ? "10" : rank;
-  const red = suit === "d" || suit === "h";
-  return (
-    <div
-      className={`card card-face ${red ? "card-red" : "card-black"} ${highlight ? "card-highlight" : ""}`}
-      style={{ width:s.w, height:s.h }}
-    >
-      <div className="card-corner card-tl" style={{ fontSize:s.cf }}>
-        <div>{display}</div>
-        <div>{SUIT_SYM[suit]}</div>
-      </div>
-      <div className="card-center" style={{ fontSize:s.sf }}>{SUIT_SYM[suit]}</div>
-      <div className="card-corner card-br" style={{ fontSize:s.cf }}>
-        <div>{display}</div>
-        <div>{SUIT_SYM[suit]}</div>
-      </div>
-    </div>
-  );
 }
 
 // ─── Seat (positioned around the table) ──────────────────────────────────────
